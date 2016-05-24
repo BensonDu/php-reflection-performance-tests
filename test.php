@@ -4,9 +4,6 @@
  * PHP Reflection Performance Tests
  */
 class TestEngine {
-    const NUM_CLASSES = 1000;
-    const NUM_PROPERTIES = 50;
-    const NUM_METHODS = 50;
     const TMP_DIRECTORY = __DIR__ . "/tmp";
 
     static $numClasses = 1000;
@@ -17,20 +14,30 @@ class TestEngine {
     static $footprintLastCompareTime = null;
     static $footprintLastMemory = null;
     static $footprintLastCompareMemory = null;
-
     static $allClasses = array();
-
     static $tests = array();
 
+    /**
+     * Add a test
+     * @param $title
+     * @param Closure $test
+     */
     static function addTest($title, Closure $test) {
         self::$tests[] = array("title" => $title, "test" => $test);
     }
 
+    /**
+     * Set footprint start values to measure from
+     */
     static function setFootprintValues() {
         self::$footprintLastTime = microtime(true);
         self::$footprintLastMemory = memory_get_usage(true);
     }
 
+    /**
+     * Show the footprint
+     * @param bool $compareWithPast
+     */
     static function showFootprint($compareWithPast = false) {
         $compareTime = round((microtime(true) - self::$footprintLastTime) * 1000, 4);
         $compareMemory = (memory_get_usage(true) - self::$footprintLastMemory) / 1024;
@@ -46,6 +53,11 @@ class TestEngine {
         self::$footprintLastCompareMemory = $compareMemory;
     }
 
+    /**
+     * Show compare numbers
+     * @param float $a
+     * @param float $b
+     */
     static function showCompareNumber($a, $b) {
         if ($a > $b) {
             $percent = round((100 / $b) * $a, 2);
@@ -58,6 +70,10 @@ class TestEngine {
         }
     }
 
+    /**
+     * Autoload classes
+     * @param $className
+     */
     static function autoload($className) {
         if (!class_exists($className, false)) {
             require self::TMP_DIRECTORY . "/" . $className . ".class.php";
@@ -80,7 +96,7 @@ if (isset($_GET["run"]) && $_GET["run"]) {
         unlink(TestEngine::TMP_DIRECTORY . "/" . $file);
     }
 
-# create given number of class files
+    # create given number of class files
     for ($i = 1; $i <= TestEngine::$numClasses; $i++) {
         $className = "Foo" . md5(uniqid(null, true)) . "_$i";
         $filename = $className . ".class.php";
