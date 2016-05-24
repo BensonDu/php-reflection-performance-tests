@@ -2,7 +2,7 @@
 Simple and straight forward PHP 5 and PHP 7 reflection performance tests. Feel free to add more tests (pull request) for all reflection tests you know.
 
 # Install and usage
-Clone it, place it on your webserver, and open the test.php. Make sure that the `tmp` folder is writable from your php application.
+Clone it, place it on your webserver, and open the test.php in your browser. Make sure that the `tmp` folder is writable from your php application. Don't use it in production enviroments, just for your safety.
 
 # Why i've made this tests?
 There often questions of how many performance impact reflections has. The question couldn't be clearly answered because it depends on how you use reflections. So here is a real world test that cover some common use cases for reflections. This test is not designed to show microsecond exact times. It is just made to get an idea of how many impact it can have if you use it in your applications and where the bottleneck is.
