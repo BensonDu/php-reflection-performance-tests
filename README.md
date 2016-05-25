@@ -9,9 +9,9 @@ There often questions of how many performance impact reflections has. The questi
 An example of heavy reflection use: Doc comments and defination in that comments that are required for the application to run properly (database properties, etc...).
 
 # Overall results and my personal conclusion
-* PHP 7 is almost twice as fast as PHP 5 in case of reflections - This does not directly indicate that reflections are faster, the PHP7 core have just received a great optimization.
-* Basic Reflections are quite fast - Reading methods and doc comments for 1000 classes cost a few milliseconds. However, loading the classes into memory is the biggest bottleneck. So it depend on filesize and amount of classes how fast it will be. On our testsystem it takes about 300ms to load 1000 class files into memory (require/include/autoload). 
-* Using reflections when you've already loaded the classes into memory than you shouldn't need to worry about the performance impact of reflections.
+* PHP 7 is almost twice as fast as PHP 5 in case of reflections - This does not directly indicate that reflections are faster on PHP7, the PHP7 core have just received a great optimization and all code will benefit from this.
+* Basic reflections are quite fast - Reading methods and doc comments for 1000 classes cost just a few milliseconds. Parsing/Autoloading the classfiles does take a lot more time than the actual reflection mechanics. On our testsystem it takes about 300ms to load 1000 class files into memory (require/include/autoload) - And than just 1-5ms to use reflection parsing (doc comments, getMethods, etc...) on the same amount of classes. 
+* Conclusion: Reflections are fast and in normal use cases you can ignore that performance impact. However, it is always recommended to only parse what is necessary. And, caching reflections doesn't give you any noticeable benefit on performance.
 
 # Contribute
 Please feel free to improve and add more tests.
